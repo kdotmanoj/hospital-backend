@@ -38,7 +38,20 @@ app.post("/",function(req,res){
         msg : "done!"
     })
 })
+function damagedKidneys(req,res,next){
+    const johnKidneys = users[0].kidneys;
+    johnKidneys.forEach((kidney) => {
+        if(!kidney.healthy){
+            next();
+            return;
+        }
+    })
 
+    res.status(403).json({
+        msg : "You have no unhealthy kidneys!"
+    })
+}
+app.use(damagedKidneys);
 app.put("/",function(req,res){
     const johnKidneys = users[0].kidneys;
     for(let i = 0;i < johnKidneys.length; i++){
